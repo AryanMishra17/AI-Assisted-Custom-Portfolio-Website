@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bleak Peaker - Graphic Designer</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+    <!-- Animate.css -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <style>
+        body {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* Vertical navigation menu styling */
+        #verticalNav {
+            z-index: 50;
+            width: 250px; /* Increased width */
+            height: 100%; /* Full height */
+            top: 0; /* Align to top */
+            left: 0; /* Align to left */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center items vertically */
+            align-items: center; /* Center items horizontally */
+            background-color: rgba(45, 45, 45, 0.95); /* Semi-transparent background */
+            transition: transform 0.3s ease, background-color 0.3s ease; /* Smooth transition */
+            transform: translateX(-100%); /* Initially hidden */
+            position: fixed; /* Fixed position */
+            font-size: larger;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5); /* Add shadow */
+            perspective: 1000px; /* 3D perspective */
+            border-right: 2px solid #fbbf24; /* Add border */
+        }
+        
+        /* Navigation link styling */
+        #verticalNav.show {
+            transform: translateX(0); /* Show the menu */
+        }
+
+        /* Close button styling */
+        #closeNav {
+            position: absolute; /* Position it absolutely */
+            top: 20px; /* Adjust top position */
+            right: 20px; /* Adjust right position */
+            background: none; /* No background */
+            border: none; /* No border */
+            color: #fff; /* White color */
+            font-size: 1.5rem; /* Larger font size */
+            cursor: pointer; /* Pointer cursor */
+        }
+
+        /* Navigation link styling */
+        .nav-link {
+            color: #fff; /* White color */
+            text-decoration: none; /* No underline */
+            font-size: 1.2rem; /* Larger font size */
+            padding: 10px 20px; /* Padding */
+            transition: color 0.3s ease, background-color 0.3s ease; /* Smooth transition */
+            display: block; /* Block display */
+            width: 100%; /* Full width */
+            text-align: center; /* Center text */
+            border: 1px solid #fbbf24; /* Border */
+            margin-bottom: 10px; /* Space between links */
+            border-radius: 5px; /* Rounded corners */
+        }
+
+        .nav-link:hover {
+            color: #fbbf24; /* Yellow color on hover */
+            background-color: rgba(255, 255, 255, 0.1); /* Light background on hover */
+        }
+
+        @media (max-width: 768px) {
+            #verticalNav {
+                width: 200px; /* Adjust width for smaller screens */
+            }
+
+            .nav-link {
+                font-size: 1rem; /* Adjust font size for smaller screens */
+            }
+        }
+
+        /* Image Styles */
+        .project-image, .home-image {
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for transform and box-shadow */
+            width: 250px; /* Set a fixed width */
+            height: 250px; /* Set a fixed height */
+            object-fit: cover; /* Maintain aspect ratio */
+        }
+        
+        .home-image {
+            border-radius: 50%; /* Make home image circular */
+        }
+
+        .project-image:hover, .home-image:hover {
+            transform: scale(1.1); /* Slightly scale up */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Add a shadow effect */
+        }
+
+        /* Section Styles */
+        section {
+            display: flex;
+            justify-content: center; /* Center content horizontally */
+            align-items: center; /* Center content vertically */
+            min-height: 70vh; /* Increased minimum height */
+            padding: 2rem 0; /* Padding for sections */
+        }
+
+        /* Home Section Styles */
+        #home {
+            text-align: center;
+        }
+
+        #home h2 {
+            font-size: 2.5rem; /* Adjust font size */
+        }
+
+        #home h3 {
+            font-size: 3rem; /* Adjust font size */
+        }
+
+        #home p {
+            margin-top: 1rem;
+            color: #ccc; /* Lighter text color for description */
+        }
+
+        /* Home Section Styles */
+        #home .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #home .container .md\:w-1\/2 {
+            text-align: center;
+        }
+        
+        #home .container .md\:w-1\/2 img {
+            margin-left: auto; /* Align image to the right */
+            margin-right: 0; /* Ensure no right margin */
+            margin-top: 20px; /* Optional: Add top margin */
+            margin-bottom: 20px; /* Optional: Add bottom margin */
+        }
+        
+        @media (min-width: 768px) {
+            #home .container {
+                flex-direction: row; /* Align text and image horizontally */
+            }
+        
+            #home .container .md\:w-1\/2 {
+                text-align: left;
+            }
+        
+            #home .container .md\:w-1\/2 img {
+                margin-left: 0; /* No left margin when in row layout */
+                margin-right: 0; /* No right margin */
+                margin-top: 0; /* Remove top margin for larger screens */
+                margin-bottom: 0; /* Remove bottom margin for larger screens */
+            }
+        }
+
+        /* About Section Styles */
+        #about .md\:w-1\/2 img {
+            margin-top: 20px; /* Add space above the image */
+            margin-bottom: 20px; /* Add space below the image */
+            margin-left: 30px; /* Add space to the left of the image */
+        }
+
+        /* Resume Section Styles */
+        #resume {
+            padding: 2rem 0; /* Reduced padding */
+          
+        }
+
+        /* Project Section Styles */
+        #projects {
+            background-color: #2d2d2d; /* Darker background for contrast */
+            padding: 2rem 0; /* Reduced padding */
+        }
+
+        #projects h2 {
+            font-size: 2.5rem; /* Adjust font size */
+            margin-bottom: 1.5rem; /* Space below heading */
+            color: #fbbf24; /* Yellow color for the heading */
+        }
+
+        .project-card {
+            background-color: #3a3a3a; /* Card background color */
+            border-radius: 8px; /* Rounded corners */
+            overflow: hidden; /* Prevent overflow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for card hover */
+        }
+
+        .project-card:hover {
+            transform: translateY(-5px); /* Lift effect on hover */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7); /* Stronger shadow effect */
+        }
+
+        .project-card img {
+            width: 100%; /* Full width */
+            height: auto; /* Maintain aspect ratio */
+            transition: transform 0.3s ease; /* Smooth transition for image hover */
+        }
+
+        .project-card img:hover {
+            transform: scale(1.05); /* Slightly scale up on hover */
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem; /* Adjust font size */
+            margin: 0.5rem; /* Space around title */
+            text-align: center; /* Center the title */
+            color: #fbbf24; /* Yellow color for project titles */
+            background-color: #3a3a3a; /* Background color for title */
+            padding: 0.5rem; /* Padding around title */
+        }
+
+        /* Feedback Section Styles */
+        #feedback {
+            padding: 2rem 0; /* Reduced padding */
+        }
+
+        /* 3D Effect for Text */
+        h2, h3, p {
+            perspective: 1000px;
+        }
+
+        h2 {
+            transform: rotateY(20deg);
+            transition: transform 0.5s;
+        }
+
+        h3 {
+            transform: rotateY(-20deg);
+            transition: transform 0.5s;
+        }
+
+        p {
+            transform: rotateY(10deg);
+            transition: transform 0.5s;
+        }
+
+        h2:hover, h3:hover, p:hover {
+            transform: rotateY(0deg);
+        }
+
+        /* Button Animation */
+        .animated-button {
+            position: relative;
+            display: inline-block;
+            padding: 10px 20px;
+            color: #fff;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .animated-button::before, .animated-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s;
+            z-index: -1;
+        }
+
+        .animated-button::before {
+            transform: scaleX(0);
+            transform-origin: left;
+        }
+
+        .animated-button::after {
+            transform: scaleY(0);
+            transform-origin: top;
+        }
+
+        .animated-button:hover::before {
+            transform: scaleX(1);
+        }
+
+        .animated-button:hover::after {
+            transform: scaleY(1);
+        }
+
+        .animated-button:hover {
+            background-color: #ff0000;
+            transform: translateY(-5px);
+        }
+
+        /* Feedback Form Styles */
+        #feedbackForm {
+            background-color: #2d2d2d; /* Dark background for form */
+            padding: 2rem; /* Padding around form */
+            border-radius: 8px; /* Rounded corners */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Add shadow effect */
+        }
+
+        #feedbackForm label {
+            color: #fbbf24; /* Yellow color for labels */
+        }
+
+        #feedbackForm input, #feedbackForm textarea {
+            background-color: #333; /* Darker background for inputs */
+            color: #fff; /* White text color */
+            border: 1px solid #fbbf24; /* Yellow border */
+            padding: 0.5rem; /* Padding inside inputs */
+            border-radius: 4px; /* Rounded corners */
+            width: 100%; /* Full width */
+            margin-bottom: 1rem; /* Space below inputs */
+        }
+
+        #feedbackForm button {
+            background-color: #fbbf24; /* Yellow background for button */
+            color: #1a1a1a; /* Dark text color */
+            padding: 0.75rem 1.5rem; /* Padding inside button */
+            border: none; /* No border */
+            border-radius: 4px; /* Rounded corners */
+            cursor: pointer; /* Pointer cursor */
+            transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth transition */
+        }
+
+        #feedbackForm button:hover {
+            background-color: #e0a800; /* Darker yellow on hover */
+            transform: translateY(-3px); /* Lift effect on hover */
+        }
+    </style>
+
+    
+    <script type="text/javascript"
+    src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+</script>
+<script type="text/javascript">
+(function(){
+  emailjs.init({
+    publicKey: "Your_public_key",
+  });
+})();
+</script>
+
+</head>
+<body class="text-white">
+    <!-- Header -->
+    <header class="bg-black py-4">
+        <div class="container mx-auto flex justify-between items-center px-4 ">
+            <h1 class="text-2xl font-bold text-red-600">BLEAK</h1>
+            <button id="menuButton" class="md:hidden text-white focus:outline-none ">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav id="navMenu" class="hidden md:block" >
+                <ul class="flex space-x-4">
+                    <li><a class="hover:text-red-600" href="#home">Home</a></li>
+                    <li><a class="hover:text-red-600" href="#about">About</a></li>
+                    <li><a class="hover:text-red-600" href="#resume">Resume</a></li>
+                    <li><a class="hover:text-red-600" href="#projects">Projects</a></li>
+                    <li><a class="hover:text-red-600" href="#feedback">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Vertical Navigation Menu -->
+    <div id="verticalNav" class="hidden">
+        <button id="closeNav" class="text-white mb-4">
+            <i class="fas fa-times fa-lg"></i>
+        </button>
+        <ul class="flex flex-col space-y-4 text-center">
+            <li><a class="nav-link" href="#home">Home</a></li>
+            <li><a class="nav-link" href="#about">About</a></li>
+            <li><a class="nav-link" href="#resume">Resume</a></li>
+            <li><a class="nav-link" href="#projects">Projects</a></li>
+            <li><a class="nav-link" href="#feedback">Contact</a></li>
+        </ul>
+    </div>
+
+   <!-- Home Section -->
+<section id="home" class="bg-gray-900 py-16 text-center md:text-left">
+    <div class="container mx-auto flex flex-col md:flex-row items-center">
+        <div class="md:w-1/2 text-center md:text-left">
+            <h2 class="text-4xl font-bold">I AM BLEAK PEAKER</h2>
+            <h3 class="text-5xl font-bold text-pink-600 mt-4">Graphic Designer</h3>
+            <p class="mt-4 text-gray-400 text-lg">Creating visually stunning designs that communicate effectively and engage audiences.</p>
+            <a href="#feedback">
+                <button class="mt-8 px-6 py-3 bg-red-600 text-white font-bold rounded animated-button">Contact Me</button>
+            </a>
+        </div>
+        <div class="md:w-1/2 mt-8 md:mt-0 flex justify-center md:justify-end">
+            <img src="https://storage.googleapis.com/a1aa/image/DUTqpyV1qYYMFBgeU5ceG0ecYegFr2sIW5fuquhIrhfXEeQEKA.jpg" alt="Portrait of Bleak Peaker" class="mx-auto home-image" />
+        </div>
+    </div>
+</section>
+
+   <!-- About Section -->
+<section id="about" class="bg-gray-800 py-16">
+    <div class="container mx-auto flex flex-col md:flex-row items-center px-4">
+        <div class="md:w-1/2 animate__animated animate__fadeInLeft">
+            <h2 class="text-3xl font-bold text-yellow-500">About Me</h2>
+            <h3 class="text-4xl font-bold mt-4">I am a Graphic Designer</h3>
+            <p class="mt-4 text-gray-400">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis at velit maximus, molestie est a, tempor magna. Integer ullamcorper neque eu purus euismod, ac facilisis quam consequat. Morbi maximus, leo sit amet vehicula eleifend, nunc dui porta orci, quis semper odio felis ut quam.</p>
+        </div>
+        <div class="md:w-1/2 mt-8 md:mt-0 animate__animated animate__fadeInRight">
+            <img src="https://storage.googleapis.com/a1aa/image/eGDDe4aZ6tuyyU2rxGgs4hDQjmQecCMU5IOYS4nB50ND0DRoA.jpg" alt="Person looking at a mountain view" class="rounded mt-4" width="500" height="300"> <!-- Added mt-4 for margin-top -->
+        </div>
+    </div>
+</section>
+
+
+    
+<!-- Resume Section -->
+<section id="resume" class="bg-gray-900 py-16">
+    <div class="container mx-auto px-4 flex justify-center">
+        <div class="w-full max-w-6xl">
+            <h2 class="text-3xl font-bold text-yellow-500 text-center animate__animated animate__fadeIn">My Resume</h2>
+            <div id="resumeCarousel" class="carousel slide mt-8" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <!-- First Carousel Item - Experience -->
+                    <div class="carousel-item active">
+                        <div class="flex flex-col md:flex-row items-center justify-center">
+                            <div class="md:w-1/2 animate__animated animate__fadeInLeft">
+                                <h3 class="text-4xl font-bold text-center">EXPERIENCE</h3>
+                                <p class="mt-4 text-2xl text-center">More than 6 years experience as a <span class="text-yellow-500">Designer</span></p>
+                            </div>
+                            <div class="md:w-1/2 mt-8 md:mt-0">
+                                <ul class="space-y-4">
+                                    <li class="flex items-center animate__animated animate__fadeInRight">
+                                        <span class="text-yellow-500 mr-4"><i class="fas fa-circle"></i></span>
+                                        <div>
+                                            <h4 class="text-xl font-bold">Pentagon Design</h4>
+                                            <p class="text-gray-400">Graphic Designer (2017-2019)</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-center animate__animated animate__fadeInRight">
+                                        <span class="text-yellow-500 mr-4"><i class="fas fa-circle"></i></span>
+                                        <div>
+                                            <h4 class="text-xl font-bold">Cute Studio</h4>
+                                            <p class="text-gray-400">Graphic Designer (2013-2015)</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-center animate__animated animate__fadeInRight">
+                                        <span class="text-yellow-500 mr-4"><i class="fas fa-circle"></i></span>
+                                        <div>
+                                            <h4 class="text-xl font-bold">City Printing</h4>
+                                            <p class="text-gray-400">Graphic Designer (2011-2013)</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Second Carousel Item - Certifications & Achievements -->
+                    <div class="carousel-item">
+                        <div class="flex flex-col md:flex-row items-center justify-center">
+                            <div class="md:w-1/2 animate__animated animate__fadeInLeft">
+                                <h3 class="text-4xl font-bold text-center">CERTIFICATIONS & ACHIEVEMENTS</h3>
+                                <p class="mt-4 text-2xl text-center">Recognized for excellence in <span class="text-yellow-500">Graphic Design</span></p>
+                            </div>
+                            <div class="md:w-1/2 mt-8 md:mt-0">
+                                <ul class="space-y-4">
+                                    <li class="flex items-center animate__animated animate__fadeInRight">
+                                        <span class="text-yellow-500 mr-4"><i class="fas fa-award"></i></span>
+                                        <div>
+                                            <h4 class="text-xl font-bold">Best Graphic Designer 2020</h4>
+                                            <p class="text-gray-400">Awarded by Design Association</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-center animate__animated animate__fadeInRight">
+                                        <span class="text-yellow-500 mr-4"><i class="fas fa-certificate"></i></span>
+                                        <div>
+                                            <h4 class="text-xl font-bold">Certified Adobe Expert</h4>
+                                            <p class="text-gray-400">Adobe Certification (2019)</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-center animate__animated animate__fadeInRight">
+                                        <span class="text-yellow-500 mr-4"><i class="fas fa-trophy"></i></span>
+                                        <div>
+                                            <h4 class="text-xl font-bold">Design Excellence Award</h4>
+                                            <p class="text-gray-400">Design Expo (2018)</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Third Carousel Item - Skills -->
+                    <div class="carousel-item">
+                        <div class="flex flex-col md:flex-row items-center justify-center">
+                            <div class="md:w-1/2 animate__animated animate__fadeInLeft">
+                                <h3 class="text-4xl font-bold text-center">SKILLS</h3>
+                                <p class="mt-4 text-2xl text-center">Proficient in various technologies and frameworks</p>
+                            </div>
+                            <div class="md:w-1/2 mt-8 md:mt-0">
+                                <ul class="space-y-4">
+                                    <li class="flex items-center animate__animated animate__fadeInRight">
+                                        <span class="text-yellow-500 mr-4"><i class="fas fa-code"></i></span>
+                                        <div>
+                                            <h4 class="text-xl font-bold">Frontend</h4>
+                                            <p class="text-gray-400">HTML, CSS, JavaScript, React, Angular</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-center animate__animated animate__fadeInRight">
+                                        <span class="text-yellow-500 mr-4"><i class="fas fa-server"></i></span>
+                                        <div>
+                                            <h4 class="text-xl font-bold">Backend</h4>
+                                            <p class="text-gray-400">Node.js, Express, Django, Flask</p>
+                                        </div>
+                                    </li>
+                                    <li class="flex items-center animate__animated animate__fadeInRight">
+                                        <span class="text-yellow-500 mr-4"><i class="fas fa-cogs"></i></span>
+                                        <div>
+                                            <h4 class="text-xl font-bold">Frameworks</h4>
+                                            <p class="text-gray-400">Bootstrap, Tailwind CSS, Material-UI</p>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Carousel Controls -->
+                <button class="carousel-control-prev" type="button" data-bs-target="#resumeCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#resumeCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+    <section id="projects" class="bg-gray-800 py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-yellow-500 text-center">My Projects</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-8" id="projectGrid">
+                <div class="project-card">
+                    <a href="project.html?img=https://storage.googleapis.com/a1aa/image/yleeh0U6HdiBH0pl6Y6V3Ye2UtXwGwTll6QCYrX9Y7uyPERoA.jpg">
+                        <img alt="Project 1 - Website Design" class="project-image" src="https://storage.googleapis.com/a1aa/image/yleeh0U6HdiBH0pl6Y6V3Ye2UtXwGwTll6QCYrX9Y7uyPERoA.jpg" />
+                    </a>
+                    <h3 class="text-xl font-bold text-center">Project 1 - Website Design</h3>
+                </div>
+                <div class="project-card">
+                    <a href="project.html?img=https://storage.googleapis.com/a1aa/image/j790WbIkAzqnLVsBLLyvqeeONlv1Qqjzw9CnZyAc1js8CiIUA.jpg">
+                        <img alt="Project 2 - Website Design" class="project-image" src="https://storage.googleapis.com/a1aa/image/j790WbIkAzqnLVsBLLyvqeeONlv1Qqjzw9CnZyAc1js8CiIUA.jpg" />
+                    </a>
+                    <h3 class="text-xl font-bold text-center">Project 2 - Website Design</h3>
+                </div>
+                <div class="project-card">
+                    <a href="project.html?img=https://storage.googleapis.com/a1aa/image/fQcYcD7faEmAz09isW3mfeEfIFQhAzoIHlA8m1F3c9MaXQEhC.jpg">
+                        <img alt="Project 3 - Website Design" class="project-image" src="https://storage.googleapis.com/a1aa/image/fQcYcD7faEmAz09isW3mfeEfIFQhAzoIHlA8m1F3c9MaXQEhC.jpg" />
+                    </a>
+                    <h3 class="text-xl font-bold text-center">Project 3 - Website Design</h3>
+                </div>
+            </div>
+            <div class="text-center mt-8">
+                <a class="text-yellow-500 hover:underline cursor-pointer" id="seeAllLink">See All</a>
+            </div>
+            <div id="hiddenProjects" class="hidden grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-8">
+                <div class="project-card">
+                    <a href="project.html?img=https://storage.googleapis.com/a1aa/image/yleeh0U6HdiBH0pl6Y6V3Ye2UtXwGwTll6QCYrX9Y7uyPERoA.jpg">
+                        <img alt="Project 4 - Website Design" class="project-image" src="https://storage.googleapis.com/a1aa/image/yleeh0U6HdiBH0pl6Y6V3Ye2UtXwGwTll6QCYrX9Y7uyPERoA.jpg" />
+                    </a>
+                    <h3 class="text-xl font-bold text-center">Project 4 - Website Design</h3>
+                </div>
+                <div class="project-card">
+                    <a href="project.html?img=https://storage.googleapis.com/a1aa/image/j790WbIkAzqnLVsBLLyvqeeONlv1Qqjzw9CnZyAc1js8CiIUA.jpg">
+                        <img alt="Project 5 - Website Design" class="project-image" src="https://storage.googleapis.com/a1aa/image/j790WbIkAzqnLVsBLLyvqeeONlv1Qqjzw9CnZyAc1js8CiIUA.jpg" />
+                    </a>
+                    <h3 class="text-xl font-bold text-center">Project 5 - Website Design</h3>
+                </div>
+                <div class="project-card">
+                    <a href="project.html?img=https://storage.googleapis.com/a1aa/image/fQcYcD7faEmAz09isW3mfeEfIFQhAzoIHlA8m1F3c9MaXQEhC.jpg">
+                        <img alt="Project 6 - Website Design" class="project-image" src="https://storage.googleapis.com/a1aa/image/fQcYcD7faEmAz09isW3mfeEfIFQhAzoIHlA8m1F3c9MaXQEhC.jpg" />
+                    </a>
+                    <h3 class="text-xl font-bold text-center">Project 6 - Website Design</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+  <!-- Include the latest EmailJS SDK -->
+  
+
+<section id="feedback" class="bg-gray-900 py-16">
+    <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold text-yellow-500 text-center animate__animated animate__fadeIn">Contact Me</h2>
+        <form class="mt-8 max-w-lg mx-auto animate__animated animate__fadeInUp" id="feedbackForm">
+            <div class="mb-4">
+                <label class="block text-gray-400 text-sm font-bold mb-2" for="name" >Name</label>
+                <input class="w-full px-3 py-2 text-black rounded" id="name" placeholder="Your Name" type="text" required/>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-400 text-sm font-bold mb-2" for="email">Email</label>
+                <input class="w-full px-3 py-2 text-black rounded" id="email" placeholder="Your Email" type="email" required/>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-400 text-sm font-bold mb-2" for="message">Message</label>
+                <textarea class="w-full px-3 py-2 text-black rounded" id="message" placeholder="Your Message" rows="4" required></textarea>
+            </div>
+            <div class="text-center">
+                <button class="px-6 py-3 bg-red-600 text-white font-bold rounded" type="submit">Send Message</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+
+    <script>
+        document.getElementById('seeAllLink').addEventListener('click', function() {
+            const hiddenProjects = document.getElementById('hiddenProjects');
+            hiddenProjects.classList.toggle('hidden'); // Toggle visibility
+            this.classList.add('hidden'); // Hide the "See All" link after clicking
+        });
+    
+        // Selecting the menu button, close button, and vertical navigation menu
+        const menuButton = document.getElementById('menuButton');
+        const closeNav = document.getElementById('closeNav');
+        const verticalNav = document.getElementById('verticalNav');
+        const navLinks = document.querySelectorAll('.nav-link');
+    
+        // Event listener to show the vertical navigation menu
+        menuButton.addEventListener('click', () => {
+            verticalNav.classList.remove('hidden'); // Remove the 'hidden' class to display the menu
+            verticalNav.classList.add('show'); // Add the 'show' class to trigger the slide-in effect
+        });
+    
+        // Event listener to hide the vertical navigation menu
+        closeNav.addEventListener('click', () => {
+            verticalNav.classList.remove('show'); // Remove the 'show' class to trigger the slide-out effect
+            setTimeout(() => {
+                verticalNav.classList.add('hidden'); // Add the 'hidden' class after the animation
+            }, 300); // Match the duration of the transition
+        });
+    
+        // Event listeners for navigation links
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent default anchor click behavior
+                const targetId = link.getAttribute('href'); // Get the target section ID
+                const targetSection = document.querySelector(targetId); // Select the target section
+    
+                // Scroll to the target section smoothly
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+    
+                // Hide the vertical navigation menu
+                verticalNav.classList.remove('show');
+                setTimeout(() => {
+                    verticalNav.classList.add('hidden');
+                }, 300); // Match the duration of the transition
+            });
+        });
+    </script>
+
+   
+
+    <script>
+        document.getElementById('feedbackForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+        
+            // Collect form data
+            const formData = {
+                from_name: document.getElementById('name').value,
+                from_email: document.getElementById('email').value,
+                message: document.getElementById('message').value,
+            };
+        
+            // Use the latest send method
+            emailjs.send("Service_id", "template_ID", formData)
+                .then((response) => {
+                    alert('Message sent successfully!');
+                })
+                .catch((error) => {
+                    console.error('Failed to send message:', error);
+                    alert('Failed to send message. Please try again later. Error: ' + JSON.stringify(error));
+                });
+        });
+        
+    </script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+
+    <footer class="bg-black py-8">
+        <div class="container mx-auto text-center">
+            <p class="text-gray-400">© 2023 Bleak Peaker. All rights reserved.</p>
+            <div class="mt-4">
+                <a class="text-gray-400 hover:text-white mx-2" href="#"><i class="fab fa-facebook-f"></i></a>
+                <a class="text-gray-400 hover:text-white mx-2" href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a class="text-gray-400 hover:text-white mx-2" href="#"><i class="fab fa-instagram"></i></a>
+                <a class="text-gray-400 hover:text-white mx-2" href="#"><i class="fab fa-github"></i></a> <!-- GitHub logo added -->
+            </div>
+        </div>
+    </footer>
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"></script>
+    
+</body>
+</html>
